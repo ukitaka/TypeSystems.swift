@@ -1,6 +1,0 @@
-[package]
-name = "algorithm_w"
-version = "0.1.0"
-authors = ["ukitaka <yuki.takahashi.1126@gmail.com>"]
-
-[dependencies]
