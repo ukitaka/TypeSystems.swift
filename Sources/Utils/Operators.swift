@@ -3,3 +3,4 @@
 //
 
 infix operator ∈
+infix operator ∋
