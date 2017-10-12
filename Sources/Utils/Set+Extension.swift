@@ -18,4 +18,12 @@ public extension Set {
     public static func ∋(lhs: Set<Element>, rhs: Element) -> Bool {
         return lhs.contains(rhs)
     }
+
+    public static func ∉(lhs: Element, rhs: Set<Element>) -> Bool {
+        return !rhs.contains(lhs)
+    }
+
+    public static func ∌(lhs: Set<Element>, rhs: Element) -> Bool {
+        return !lhs.contains(rhs)
+    }
 }
