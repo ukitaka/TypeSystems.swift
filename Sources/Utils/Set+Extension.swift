@@ -7,11 +7,11 @@ public extension Set {
         return map { $0 }
     }
 
-    public static func /<T>(lhs: Set<T>, rhs: Set<T>) -> Set<T> {
+    public static func /(lhs: Set<Element>, rhs: Set<Element>) -> Set<Element> {
         return lhs.subtracting(rhs)
     }
 
-    public static func ∈<T>(lhs: T, rhs: Set<T>) -> Bool {
+    public static func ∈(lhs: Element, rhs: Set<Element>) -> Bool {
         return rhs.contains(lhs)
     }
 }

@@ -12,6 +12,7 @@ let package = Package(
       .target(name: "AlgorithmW", dependencies: ["Utils"]),
       .target(name: "Utils", dependencies: []),
       .testTarget(name: "AlgorithmWTests", dependencies: ["AlgorithmW"]), 
+      .testTarget(name: "UtilsTests", dependencies: ["Utils"]),
     ]
 )
 
