@@ -7,6 +7,14 @@ public extension Set {
         return map { $0 }
     }
 
+    public static func ∩(lhs: Set<Element>, rhs: Set<Element>) -> Set<Element> {
+        return lhs.intersection(rhs)
+    }
+
+    public static func ∪(lhs: Set<Element>, rhs: Set<Element>) -> Set<Element> {
+        return lhs.union(rhs)
+    }
+
     public static func /(lhs: Set<Element>, rhs: Set<Element>) -> Set<Element> {
         return lhs.subtracting(rhs)
     }
@@ -26,4 +34,5 @@ public extension Set {
     public static func ∌(lhs: Set<Element>, rhs: Element) -> Bool {
         return !lhs.contains(rhs)
     }
+
 }
