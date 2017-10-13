@@ -11,23 +11,29 @@ public struct Parser<A> {
 
     public func map<B>(_ f: @escaping (A) -> B) -> Parser<B> {
         return Parser<B> { string in
-            let (a, remaining) = self.parse(string)
-            return (f(a), remaining)
+            return self.parse(string)
+                    .map { a, remaining in
+                        return (f(a), remaining)
+                    }
         }
     }
 
     public func map2<B, C>(_ other: Parser<B>, _ f: @escaping (A, B) -> C) -> Parser<C> {
         return Parser<C> { string in
-            let (a, remaining1) = self.parse(string)
-            let (b, remaining2) = other.parse(remaining1)
-            return (f(a, b), remaining2)
+            return self.parse(string)
+                    .flatMap { a, remaining1 in
+                        return other.parse(remaining1).flatMap { b, remaining2 in
+                            return ParseResult.success(f(a, b), remaining2)
+                        }
+                    }
         }
     }
 
     public func flatMap<B>(_ f: @escaping (A) -> Parser<B>) -> Parser<B> {
         return Parser<B> { string in
-            let (a, remaining) = self.parse(string)
-            return f(a).parse(remaining)
+            return self.parse(string).flatMap { a, remaining in
+                f(a).parse(remaining)
+            }
         }
     }
 }

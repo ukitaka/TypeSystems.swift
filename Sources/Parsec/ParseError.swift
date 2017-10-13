@@ -3,5 +3,5 @@
 //
 
 public enum ParseError: Error {
-
+    case error(String)
 }

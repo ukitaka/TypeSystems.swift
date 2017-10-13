@@ -8,19 +8,20 @@ public enum ParseResult<A> {
 }
 
 public extension ParseResult {
-    public func map<B>(_ f: @escaping (A) -> B) -> ParseResult<B> {
+    public func map<B>(_ f: @escaping (A, String) -> (B, String)) -> ParseResult<B> {
         switch self {
-        case let .success(a, remaining):
-            return .success(f(a), remaining)
+        case let .success(a, remaining1):
+            let (b, remaining2) = f(a, remaining1)
+            return .success(b, remaining2)
         case let .failure(error):
             return .failure(error)
         }
     }
 
-    public func flatMap<B>(_ f: @escaping (A) -> ParseResult<B>) -> ParseResult<B> {
+    public func flatMap<B>(_ f: @escaping (A, String) -> ParseResult<B>) -> ParseResult<B> {
         switch self {
-        case let .success(a, _):
-            return f(a)
+        case let .success(a, remaining):
+            return f(a, remaining)
         case let .failure(error):
             return .failure(error)
         }
