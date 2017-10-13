@@ -16,6 +16,14 @@ public struct Parser<A> {
         }
     }
 
+    public func map2<B, C>(_ other: Parser<B>, _ f: @escaping (A, B) -> C) -> Parser<C> {
+        return Parser<C> { string in
+            let (a, remaining1) = self.parse(string)
+            let (b, remaining2) = other.parse(remaining1)
+            return (f(a, b), remaining2)
+        }
+    }
+
     public func flatMap<B>(_ f: @escaping (A) -> Parser<B>) -> Parser<B> {
         return Parser<B> { string in
             let (a, remaining) = self.parse(string)
