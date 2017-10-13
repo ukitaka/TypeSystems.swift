@@ -35,4 +35,11 @@ public extension Set {
         return !lhs.contains(rhs)
     }
 
+    public static func singleton(_ element: Element) -> Set<Element> {
+        return Set(arrayLiteral: element)
+    }
+
+    public static func empty() -> Set<Element> {
+        return Set()
+    }
 }

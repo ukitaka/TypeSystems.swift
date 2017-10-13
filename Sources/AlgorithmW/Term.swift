@@ -2,6 +2,8 @@
 // Created by ukitaka on 2017/10/12.
 //
 
+import Utils
+
 public indirect enum Term {
     case `var`(VarName)
     case literal(Literal)
@@ -9,6 +11,8 @@ public indirect enum Term {
     case app(Term, Term)
     case `let`(VarName, Term, Term)
 }
+
+// MARK: - Equatable
 
 extension Term: Equatable {
     public static func ==(lhs: Term, rhs: Term) -> Bool {
@@ -25,6 +29,27 @@ extension Term: Equatable {
             return n1 == n2 && bind1 == bind2 && body1 == body2
         default:
             return false
+        }
+    }
+}
+
+// MARK: - Free variables
+//
+// 3.5 Type assignments
+//
+public extension Term {
+    var freeVars: Set<VarName> {
+        switch self {
+        case let .var(varName):
+            return Set.singleton(varName)
+        case .literal:
+            return Set.empty()
+        case let .abs(varName, term):
+            return term.freeVars / Set.singleton(varName)
+        case let .app(fun, arg):
+            return fun.freeVars ∪ arg.freeVars
+        case let .let(varName, bind, body):
+            return bind.freeVars ∪ (body.freeVars / Set.singleton(varName))
         }
     }
 }
