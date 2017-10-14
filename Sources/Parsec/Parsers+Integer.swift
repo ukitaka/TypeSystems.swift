@@ -17,8 +17,12 @@ public extension Parsers {
                 d("6") <|> d("7") <|> d("8") <|> d("9")
     }
 
+    public static func integerZero() -> Parser<Int> {
+        return Parsers.string("0").map { _ in 0 }
+    }
+
     public static func integer() -> Parser<Int> {
-        return (digitHead() <**> digit().many())
+        return integerZero() <|> (digitHead() <**> digit().many())
             .mapResult { (tuple, remaining) in
                 if let int = Int(tuple.0 + tuple.1.joined()) {
                     return .success(int, remaining)

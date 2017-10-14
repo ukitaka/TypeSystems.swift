@@ -16,8 +16,8 @@ public extension Parser {
                 switch other().parse(input) {
                 case let .success(a, remaining):
                     return .success(a, remaining)
-                case .failure:
-                    return .failure(.error("or error"))
+                case let .failure(error):
+                    return .failure(error)
                 }
             }
         }
