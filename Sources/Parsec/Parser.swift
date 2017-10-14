@@ -9,6 +9,26 @@ public struct Parser<A> {
         self.parse = parse
     }
 
+    public func parseOnly(_ input: String) throws -> A {
+        switch parse(input) {
+        case let .success(a, _):
+            return a
+        case let .failure(error):
+            throw error
+        }
+    }
+
+    // for testing
+
+    func forceParse(_ input: String) -> A {
+        switch parse(input) {
+        case let .success(a, _):
+            return a
+        case let .failure(error):
+            fatalError(error.description)
+        }
+    }
+
     public static func success(_ a: A) -> Parser<A> {
         return Parser<A> { input in
             return .success(a, input)

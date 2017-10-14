@@ -5,3 +5,12 @@
 public enum ParseError: Error {
     case error(String)
 }
+
+extension ParseError: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .error(message):
+            return message
+        }
+    }
+}

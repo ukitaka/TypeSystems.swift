@@ -2,7 +2,7 @@
 // Created by ukitaka on 2017/10/13.
 //
 
-public extension Parser {
+public extension Parsers {
     public static func char(_ char: Character) -> Parser<Character> {
         return Parser<Character> { input in
             if input.characters.first == char {

@@ -13,6 +13,7 @@ let package = Package(
       .target(name: "Parsec", dependencies: ["Utils"]),
       .target(name: "AlgorithmW", dependencies: ["Parsec", "Utils"]),
       .target(name: "Utils", dependencies: []),
+      .testTarget(name: "ParsecTests", dependencies: ["Parsec"]), 
       .testTarget(name: "AlgorithmWTests", dependencies: ["AlgorithmW"]), 
       .testTarget(name: "UtilsTests", dependencies: ["Utils"]),
     ]
