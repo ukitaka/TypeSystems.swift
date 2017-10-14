@@ -47,11 +47,11 @@ public extension Parser {
         if n == 0 {
             return Parser<[A]>.success([])
         } else {
-            return map2(listOf(n - 1), Array.cons)
+            return map2(self.listOf(n - 1), Array.cons)
         }
     }
 
     public func many() -> Parser<[A]> {
-        return map2(many(), Array.cons) <|> Parser<[A]>.success([])
+        return map2(self.many(), Array.cons) <|> Parser<[A]>.success([])
     }
 }

@@ -56,11 +56,11 @@ public struct Parser<A> {
         }
     }
 
-    public func map2<B, C>(_ other: Parser<B>, _ f: @escaping (A, B) -> C) -> Parser<C> {
+    public func map2<B, C>(_ other: @autoclosure @escaping () -> Parser<B>, _ f: @escaping (A, B) -> C) -> Parser<C> {
         return Parser<C> { input in
             return self.parse(input)
                     .flatMap { a, remaining1 in
-                        return other.parse(remaining1).flatMap { b, remaining2 in
+                        return other().parse(remaining1).flatMap { b, remaining2 in
                             return ParseResult.success(f(a, b), remaining2)
                         }
                     }
