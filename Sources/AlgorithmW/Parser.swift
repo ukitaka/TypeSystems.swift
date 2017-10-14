@@ -18,4 +18,8 @@ extension Parser {
     func parseIntLiteral(_ input: String) -> P<Term> {
         return Parsers.integer().map(Literal.int).map(Term.literal)
     }
+
+    func parseBoolLiteral(_ input: String) -> P<Term> {
+        return Parsers.bool().map(Literal.bool).map(Term.literal)
+    }
 }
