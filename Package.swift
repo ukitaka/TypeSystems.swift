@@ -10,7 +10,7 @@ let package = Package(
       .library(name: "Utils", targets: ["Utils"])
     ],
     targets: [
-      .target(name: "Parsec", dependencies: []),
+      .target(name: "Parsec", dependencies: ["Utils"]),
       .target(name: "AlgorithmW", dependencies: ["Parsec", "Utils"]),
       .target(name: "Utils", dependencies: []),
       .testTarget(name: "AlgorithmWTests", dependencies: ["AlgorithmW"]), 

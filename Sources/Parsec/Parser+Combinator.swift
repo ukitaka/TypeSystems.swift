@@ -4,6 +4,8 @@
 
 // MARK: - or
 
+import Utils
+
 public extension Parser {
     public func or(_ other: @autoclosure @escaping () -> Parser<A>) -> Parser<A> {
         return Parser<A> { input in
@@ -33,11 +35,11 @@ public extension Parser {
         if n == 0 {
             return Parser<[A]>.success([])
         } else {
-            return self.map2(self.listOf(n - 1)) { (a, list) in
-                var list = list
-                list.insert(a, at: 0)
-                return list
-            }
+            return map2(listOf(n - 1), Array.cons)
         }
+    }
+
+    public func many() -> Parser<[A]> {
+        return map2(many(), Array.cons) <|> Parser<[A]>.success([])
     }
 }
