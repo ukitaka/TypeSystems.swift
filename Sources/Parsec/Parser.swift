@@ -9,6 +9,12 @@ public struct Parser<A> {
         self.parse = parse
     }
 
+    public static func success(_ a: A) -> Parser<A> {
+        return Parser<A> { input in
+            return .success(a, input)
+        }
+    }
+
     public func map<B>(_ f: @escaping (A) -> B) -> Parser<B> {
         return Parser<B> { string in
             return self.parse(string)
