@@ -18,4 +18,8 @@ public extension Parser {
             }
         }
     }
+
+    public static func <|> (lhs: Parser<A>, rhs: @autoclosure @escaping () -> Parser<A>) -> Parser<A> {
+        return lhs.or(rhs)
+    }
 }
