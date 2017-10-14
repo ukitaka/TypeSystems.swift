@@ -36,6 +36,8 @@ infix operator <^> : ParserApplicativePrecedence
 
 infix operator <*> : ParserApplicativePrecedence
 
+infix operator <**> : ParserApplicativePrecedence
+
 infix operator <* : ParserApplicativeSequencePrecedence
 
 infix operator *> : ParserApplicativeSequencePrecedence

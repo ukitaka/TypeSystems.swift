@@ -16,17 +16,29 @@ public struct Parser<A> {
     }
 
     public func map<B>(_ f: @escaping (A) -> B) -> Parser<B> {
-        return Parser<B> { string in
-            return self.parse(string)
+        return Parser<B> { input in
+            return self.parse(input)
                     .map { a, remaining in
                         return (f(a), remaining)
                     }
         }
     }
 
+    public func mapResult<B>(_ f: @escaping (A, String) -> ParseResult<B>) -> Parser<B> {
+        return Parser<B> { input in
+            switch self.parse(input) {
+            case let .success(a, remaining):
+                return f(a, remaining)
+            case let .failure(error):
+                return .failure(error)
+            }
+
+        }
+    }
+
     public func map2<B, C>(_ other: Parser<B>, _ f: @escaping (A, B) -> C) -> Parser<C> {
-        return Parser<C> { string in
-            return self.parse(string)
+        return Parser<C> { input in
+            return self.parse(input)
                     .flatMap { a, remaining1 in
                         return other.parse(remaining1).flatMap { b, remaining2 in
                             return ParseResult.success(f(a, b), remaining2)
@@ -36,8 +48,8 @@ public struct Parser<A> {
     }
 
     public func flatMap<B>(_ f: @escaping (A) -> Parser<B>) -> Parser<B> {
-        return Parser<B> { string in
-            return self.parse(string).flatMap { a, remaining in
+        return Parser<B> { input in
+            return self.parse(input).flatMap { a, remaining in
                 f(a).parse(remaining)
             }
         }

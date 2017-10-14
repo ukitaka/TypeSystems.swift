@@ -28,6 +28,18 @@ public extension Parser {
     }
 }
 
+// MARK: - product
+
+public extension Parser {
+    public func product<B>(_ other: Parser<B>) -> Parser<(A, B)> {
+        return map2(other) { (a, b) in (a, b) }
+    }
+
+    public static func <**> <B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<(A, B)> {
+        return lhs.product(rhs)
+    }
+}
+
 // MARK: - many
 
 public extension Parser {
