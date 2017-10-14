@@ -16,6 +16,6 @@ extension Parser {
     typealias P<A> = Parsec.Parser<A>
 
     func parseIntLiteral(_ input: String) -> P<Term> {
-        fatalError()
+        return Parsers.integer().map(Literal.int).map(Term.literal)
     }
 }
