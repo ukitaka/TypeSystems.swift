@@ -12,11 +12,11 @@ func typeInferenceLiteral(literal: Literal) -> (Substitution, Type) {
     }
 }
 
-func typeInferenceTerm(env: TypeEnv, term: Term) -> (Substitution, Type) {
+func typeInferenceTerm(env: Prefix, term: Term) -> (Substitution, Type) {
     fatalError()
 }
 
-public func typeInference(env: TypeEnv, term: Term) -> Type {
+public func typeInference(env: Prefix, term: Term) -> Type {
     let (substitution, type) = typeInferenceTerm(env: env, term: term)
     return substitution.apply(to: type)
 }
