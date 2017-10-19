@@ -3,8 +3,13 @@
 //
 
 
-func typeInferenceliteral(env: TypeEnv, literal: Literal) -> (Substitution, Type) {
-    fatalError()
+func typeInferenceLiteral(literal: Literal) -> (Substitution, Type) {
+    switch literal {
+    case .bool:
+        return (.empty(), .bool)
+    case .int:
+        return (.empty(), .int)
+    }
 }
 
 func typeInferenceTerm(env: TypeEnv, term: Term) -> (Substitution, Type) {
