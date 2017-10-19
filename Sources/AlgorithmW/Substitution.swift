@@ -7,6 +7,18 @@ import Utils
 public struct Substitution {
     private let map: [VarName: Type]
 
+    init() {
+        self.map = [:]
+    }
+
+    init(map: [VarName: Type]) {
+        self.map = map
+    }
+
+    init(varName: VarName, type: Type) {
+        self.map = [varName: type]
+    }
+
     public func removing(varName: VarName) -> Substitution {
         return Substitution(map: self.map.removing(key: varName))
     }
@@ -22,5 +34,29 @@ public struct Substitution {
         case .int:
             return .int
         }
+    }
+}
+
+// MARK: union
+
+public extension Substitution {
+    public func union(_ other: Substitution) -> Substitution {
+        return Substitution(map: self.map.merging(other.map) { _, type in type })
+    }
+
+    public static func ∪(lhs: Substitution, rhs: Substitution) -> Substitution {
+        return lhs.union(rhs)
+    }
+}
+
+// MARK: alias of `init`
+
+public extension Substitution {
+    public static func empty() -> Substitution {
+        return Substitution()
+    }
+
+    public static func singleton(varName: VarName, type: Type) -> Substitution {
+        return Substitution(varName: varName, type: type)
     }
 }

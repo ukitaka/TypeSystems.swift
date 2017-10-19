@@ -25,7 +25,7 @@ public extension TypeEnv {
         return TypeEnv()
     }
 
-    public static func singleton(varName: VarName, type: TypeEnv) -> TypeEnv {
-        return TypeEnv()
+    public static func singleton(varName: VarName, type: Type) -> TypeEnv {
+        return TypeEnv(varName: varName, type: type)
     }
 }
