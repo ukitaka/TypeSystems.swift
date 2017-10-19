@@ -16,6 +16,15 @@ public struct Prefix {
     public subscript(_ varName: VarName) -> Type? {
         return map[varName]
     }
+
+    public subscript(_ variable: Term) -> Type? {
+        switch variable {
+        case let .var(varName):
+            return map[varName]
+        default:
+            return nil
+        }
+    }
 }
 
 // MARK: alias of `init`
