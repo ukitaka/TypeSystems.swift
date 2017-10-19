@@ -10,4 +10,17 @@ public struct Substitution {
     public func removing(varName: VarName) -> Substitution {
         return Substitution(map: self.map.removing(key: varName))
     }
+
+    public func apply(to type: Type) -> Type {
+        switch type {
+        case let .typeVar(name):
+            return map[name] ?? type
+        case let .func(arg, ret):
+            return .func(apply(to: arg), apply(to: ret))
+        case .bool:
+            return .bool
+        case .int:
+            return .int
+        }
+    }
 }

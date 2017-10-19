@@ -6,5 +6,5 @@ public indirect enum Type {
     case int
     case bool
     case `func`(Type, Type)
-    case typeVar(String)
+    case typeVar(VarName)
 }
