@@ -34,7 +34,9 @@ extension Term: Equatable {
 }
 
 // MARK: - Free variables
-
+//
+// 3.5 Type assignments
+//
 public extension Term {
     var freeVars: Set<VarName> {
         switch self {
