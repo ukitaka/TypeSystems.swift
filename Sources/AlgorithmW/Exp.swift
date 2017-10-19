@@ -4,18 +4,18 @@
 
 import Utils
 
-public indirect enum Term {
+public indirect enum Exp {
     case `var`(VarName)
     case literal(Literal)
-    case abs(VarName, Term)
-    case app(Term, Term)
-    case `let`(VarName, Term, Term)
+    case abs(VarName, Exp)
+    case app(Exp, Exp)
+    case `let`(VarName, Exp, Exp)
 }
 
 // MARK: - Equatable
 
-extension Term: Equatable {
-    public static func ==(lhs: Term, rhs: Term) -> Bool {
+extension Exp: Equatable {
+    public static func ==(lhs: Exp, rhs: Exp) -> Bool {
         switch (lhs, rhs) {
         case let (.var(v1), .var(v2)):
             return v1 == v2
@@ -37,7 +37,7 @@ extension Term: Equatable {
 //
 // 3.5 Type assignments
 //
-public extension Term {
+public extension Exp {
     var freeVars: Set<VarName> {
         switch self {
         case let .var(varName):

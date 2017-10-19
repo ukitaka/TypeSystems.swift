@@ -17,7 +17,7 @@ public struct Prefix {
         return map[varName]
     }
 
-    public subscript(_ variable: Term) -> Type? {
+    public subscript(_ variable: Exp) -> Type? {
         switch variable {
         case let .var(varName):
             return map[varName]

@@ -5,7 +5,7 @@
 import Parsec
 
 public struct Parser {
-    public func parse(_ input: String) -> ParseResult<Term> {
+    public func parse(_ input: String) -> ParseResult<Exp> {
         return .failure(.error("not implemented yet"))
     }
 }
@@ -15,11 +15,11 @@ public struct Parser {
 extension Parser {
     typealias P<A> = Parsec.Parser<A>
 
-    func parseIntLiteral(_ input: String) -> P<Term> {
-        return Parsers.integer().map(Literal.int).map(Term.literal)
+    func parseIntLiteral(_ input: String) -> P<Exp> {
+        return Parsers.integer().map(Literal.int).map(Exp.literal)
     }
 
-    func parseBoolLiteral(_ input: String) -> P<Term> {
-        return Parsers.bool().map(Literal.bool).map(Term.literal)
+    func parseBoolLiteral(_ input: String) -> P<Exp> {
+        return Parsers.bool().map(Literal.bool).map(Exp.literal)
     }
 }
