@@ -2,7 +2,7 @@
 // Created by ukitaka on 2017/10/13.
 //
 
-public struct Prefix {
+public struct Env {
     private let map: [VarName: Type]
 
     public init() {
@@ -29,12 +29,12 @@ public struct Prefix {
 
 // MARK: alias of `init`
 
-public extension Prefix {
-    public static func empty() -> Prefix {
-        return Prefix()
+public extension Env {
+    public static func empty() -> Env {
+        return Env()
     }
 
-    public static func singleton(varName: VarName, type: Type) -> Prefix {
-        return Prefix(varName: varName, type: type)
+    public static func singleton(varName: VarName, type: Type) -> Env {
+        return Env(varName: varName, type: type)
     }
 }
