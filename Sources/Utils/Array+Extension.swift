@@ -12,4 +12,10 @@ public extension Array {
         array.insert(element, at: 0)
         return array
     }
+
+    public func appending(element: Element) -> [Element] {
+        var array = self
+        array.append(element)
+        return array
+    }
 }

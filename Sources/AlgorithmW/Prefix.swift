@@ -2,6 +2,8 @@
 // Created by Yuki Takahashi on 2017/10/20.
 //
 
+import Utils
+
 public struct Prefix {
     public enum Member {
         case `let`(VarName)
@@ -13,6 +15,14 @@ public struct Prefix {
 
     init() {
         members = []
+    }
+
+    init(members: [Member]) {
+        self.members = members
+    }
+
+    public func appending(member: Member) -> Prefix {
+        return Prefix(members: members.appending(element: member))
     }
 
 }

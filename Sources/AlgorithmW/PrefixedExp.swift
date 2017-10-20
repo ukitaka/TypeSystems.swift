@@ -20,14 +20,22 @@ public extension PrefixedExp {
     }
 
     public var subPrefixedExps: [PrefixedExp] {
-        fatalError()
-//        switch exp {
-//        case let .var(varName):
-//            return [self]
-//        case let .app(exp1, exp2):
-//            return [ PE(prefix, exp1), PE(prefix, exp2) ]
-//        case let .i
-//
-//        }
+        switch exp {
+        case .var, .literal:
+            return [self]
+        case let .app(e1, e2):
+            return [ PE(prefix, e1), PE(prefix, e2) ]
+        case let .if(e1, e2, e3):
+            return [ PE(prefix, e1), PE(prefix, e2), PE(prefix, e3) ]
+        case let .abs(varName, e):
+            return [ PE(prefix.appending(member: .abs(varName)), e) ]
+        case let .fix(varName, e):
+            return [ PE(prefix.appending(member: .fix(varName)), e) ]
+        case let .let(varName, e1, e2):
+            return [
+                PE(prefix, e1),
+                PE(prefix.appending(member: .let(varName)), e2)
+            ]
+        }
     }
 }
