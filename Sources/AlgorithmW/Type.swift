@@ -31,3 +31,18 @@ extension Type: Equatable {
         }
     }
 }
+
+extension Type: CustomStringConvertible {
+    public var description: String {
+        switch self{
+        case .int:
+            return "Int"
+        case .bool:
+            return "Bool"
+        case let .func(arg, ret):
+            return "\(arg) -> \(ret)"
+        case let .typeVar(varName):
+            return varName.name
+        }
+    }
+}
