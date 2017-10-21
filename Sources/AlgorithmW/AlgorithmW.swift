@@ -49,8 +49,12 @@ public extension AlgorithmW {
             let t = u.union(r)
             let f = TypedExp.fix(x, t.apply(to: beta), u.apply(to: dp), t.apply(to: beta))
             return (t, f)
-        default:
-            fatalError()
+        case let .let(x, d, e):
+            let (r, dp) = w(p, d)
+            let (s, es) = w(r.apply(to: p).appending(member: .let(x, dp.type)), e)
+            let t = s.union(r)
+            let f = TypedExp.let(x, s.apply(to: dp.type), s.apply(to: dp), es, dp.type)
+            return (t, f)
         }
     }
 }
