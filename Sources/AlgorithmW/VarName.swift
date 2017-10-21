@@ -13,7 +13,7 @@ public struct VarName {
 
     init() {
         VarName.counter += 1
-        self.name = "X\(counter)"
+        self.name = "X\(VarName.counter)"
     }
 
     public static func fresh() -> VarName {
