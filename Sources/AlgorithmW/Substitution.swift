@@ -39,6 +39,10 @@ public struct Substitution {
     public func apply(to p: TypedPrefix) -> TypedPrefix {
         return p.apply(substitution: self)
     }
+
+    public func apply(to e: TypedExp) -> TypedExp {
+        return TypedExp(exp: e.exp, type: apply(to: e.type))
+    }
 }
 
 // MARK: union

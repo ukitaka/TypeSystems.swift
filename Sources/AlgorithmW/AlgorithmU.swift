@@ -8,7 +8,7 @@ public struct AlgorithmU { }
 
 public extension AlgorithmU {
 
-    public func mostGeneralUnifier(_ type1: Type, _ type2: Type) -> Substitution {
+    public static func mostGeneralUnifier(_ type1: Type, _ type2: Type) -> Substitution {
         switch (type1, type2) {
         case let (.typeVar(varName), _):
             return Substitution(varName: varName, type: type2)
