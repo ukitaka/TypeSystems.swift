@@ -91,7 +91,7 @@ extension TypedExp: CustomStringConvertible {
         case let .if(cond, then, els, type):
             return "(if \(cond) then \(then) else \(els)):\(type)"
         case let .abs(varName, varType, exp, expType):
-            return "λ\(varName):\(varType). \(exp):\(expType)"
+            return "(λ\(varName):\(varType). \(exp)):\(expType)"
         case let .app(fun, arg, type):
             return "(\(fun) \(arg)):\(type)"
         case let .let(varName, varType, bind, body, bodyType):

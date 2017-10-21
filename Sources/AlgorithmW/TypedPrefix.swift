@@ -121,3 +121,26 @@ extension TypedPrefix.TypedMember: Equatable {
         }
     }
 }
+
+extension TypedPrefix.TypedMember: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .fix(varName, type):
+            return "fix \(varName):\(type)"
+        case let .let(varName, type):
+            return "let \(varName):\(type)"
+        case let .abs(varName, type):
+            return "λ \(varName):\(type)"
+        }
+    }
+}
+
+extension TypedPrefix: CustomStringConvertible {
+    public var description: String {
+        if members.isEmpty {
+            return "[]"
+        } else {
+            return "[\n" + members.map { $0.description }.joined(separator: ",\n") + "\n]"
+        }
+    }
+}

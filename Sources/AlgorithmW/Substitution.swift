@@ -73,6 +73,10 @@ public extension Substitution {
 
 extension Substitution: CustomStringConvertible {
     public var description: String {
-        return "[\n" + map.map { (key, val) in "\(key) ↦ \(val)" }.joined(separator: ",\n") + "\n]"
+        if map.isEmpty {
+            return "[]"
+        } else {
+            return "[\n" + map.map { (key, val) in "\(key) ↦ \(val)" }.joined(separator: ",\n") + "\n]"
+        }
     }
 }
