@@ -35,6 +35,10 @@ public struct Substitution {
             return .int
         }
     }
+
+    public func apply(to p: TypedPrefix) -> TypedPrefix {
+        return p.apply(substitution: self)
+    }
 }
 
 // MARK: union

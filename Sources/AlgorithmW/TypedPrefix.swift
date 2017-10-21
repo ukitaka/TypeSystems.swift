@@ -15,6 +15,10 @@ public struct TypedPrefix {
         members = []
     }
 
+    init(members: [TypedMember]) {
+        self.members = members
+    }
+
     public init(prefix: Prefix) {
         self.members = prefix.members.map(TypedMember.init)
     }
@@ -30,11 +34,25 @@ public struct TypedPrefix {
     public subscript(varName: VarName) -> TypedMember? {
         return members.first { $0.varName == varName }
     }
+
+    public func apply(substitution: Substitution) -> TypedPrefix {
+        return TypedPrefix(members: members.map { $0.apply(substitution: substitution) })
+    }
 }
 
 // MARK: -
 
 extension TypedPrefix.TypedMember {
+    public func apply(substitution: Substitution) -> TypedPrefix.TypedMember {
+        switch self {
+        case let .let(varName, type):
+            return .let(varName, substitution.apply(to:type))
+        case let .fix(varName, type):
+            return .fix(varName, substitution.apply(to:type))
+        case let .abs(varName, type):
+            return .abs(varName, substitution.apply(to:type))
+        }
+    }
 
     public func untyped() -> Prefix.Member {
         switch self {

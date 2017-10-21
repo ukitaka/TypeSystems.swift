@@ -13,7 +13,10 @@ public extension AlgorithmW {
             } else if p.isActive(member: .let(x)) {
                 return (Substitution.empty(), TypedExp(exp: .var(x), type: Type.freshVar()))
             }
-            fatalError()
+            fatalError("\(x) is not active in prefix")
+//        case let .app(d, e):
+//            let (r, dp) = w(p, d)
+//            let (s, es) = w()
         default:
             fatalError()
         }
