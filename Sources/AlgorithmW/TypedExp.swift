@@ -15,6 +15,25 @@ public indirect enum TypedExp {
 }
 
 public extension TypedExp {
+    public var type: Type {
+        switch self {
+        case let .var(_, type):
+            return type
+        case let .literal(_, type):
+            return type
+        case let .if(_, _, _, type):
+            return type
+        case let .abs(_, _, type):
+            return type
+        case let .app(_, _, type):
+            return type
+        case let .let(_, _, _, type):
+            return type
+        case let .fix(_, _, type):
+            return type
+        }
+    }
+
     public func apply(substitution s: Substitution) -> TypedExp {
         switch self {
         case let .var(varName, type):

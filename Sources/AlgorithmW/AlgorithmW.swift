@@ -14,13 +14,14 @@ public extension AlgorithmW {
                 return (Substitution.empty(), TypedExp.var(x, Type.freshVar()))
             }
             fatalError("\(x) is not active in prefix")
-//        case let .app(d, e):
-//            let (r, dp) = w(p, d)
-//            let (s, es) = w(r.apply(to: p), e)
-//            let u = AlgorithmU.mostGeneralUnifier(s.apply(to: p), .func(es.type, Type.freshVar()))
-//            let f = TypedExp.init(exp: ., type: <#T##Type##AlgorithmW.Type#>) s.apply(to: dp)
-//            return (u.union(s).union(r), s.apply(to: dp))
-//            fatalError()
+        case let .app(d, e):
+            let (r, dp) = w(p, d)
+            let (s, es) = w(r.apply(to: p), e)
+            let beta = Type.freshVar()
+            let u = AlgorithmU.mostGeneralUnifier(s.apply(to: dp.type), .func(es.type, beta))
+            let f = u.apply(to: TypedExp.app(s.apply(to: dp), es, beta))
+            let t = u.union(s).union(r)
+            return (t, f)
         default:
             fatalError()
         }
