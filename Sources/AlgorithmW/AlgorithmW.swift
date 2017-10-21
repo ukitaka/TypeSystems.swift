@@ -31,6 +31,10 @@ public extension AlgorithmW {
             let t = u.union(sd).union(s).union(u0).union(r)
             let f = u.apply(to: .if(sd.union(s).union(u0).apply(to: dp), sd.apply(to: es), esd, es.type))
             return (t, f)
+        case let .abs(x, d):
+            let beta = Type.freshVar()
+            let (r, dp) = w(p.appending(member: .abs(x, beta)), d)
+            return (r, .abs(x, r.apply(to: beta), dp, .func(r.apply(to: beta), dp.type)))
         default:
             fatalError()
         }

@@ -38,6 +38,10 @@ public struct TypedPrefix {
     public func apply(substitution: Substitution) -> TypedPrefix {
         return TypedPrefix(members: members.map { $0.apply(substitution: substitution) })
     }
+
+    public func appending(member: TypedMember) -> TypedPrefix {
+        return TypedPrefix(members: members.appending(element: member))
+    }
 }
 
 // MARK: -
