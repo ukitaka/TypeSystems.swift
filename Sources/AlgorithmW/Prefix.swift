@@ -25,6 +25,10 @@ public struct Prefix {
         return Prefix(members: members.appending(element: member))
     }
 
+    public func isActive(member: Member) -> Bool {
+        return members.filter { $0.varName == member.varName }.last == member
+    }
+
 }
 
 // MARK: -
@@ -36,6 +40,19 @@ public extension Prefix {
 }
 
 // MARK: -
+
+extension Prefix.Member {
+    public var varName: VarName {
+        switch self {
+        case let .let(varName):
+            return varName
+        case let .fix(varName):
+            return varName
+        case let .abs(varName):
+            return varName
+        }
+    }
+}
 
 extension Prefix.Member: Equatable {
     public static func ==(lhs: Prefix.Member, rhs: Prefix.Member) -> Bool {
