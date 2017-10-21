@@ -5,8 +5,15 @@
 public struct AlgorithmW { }
 
 public extension AlgorithmW {
-    func w(_ p: TypedPrefix, _ f: Exp) -> (Substitution, TypedExp) {
+    public static func w(_ p: TypedPrefix, _ f: Exp) -> (Substitution, TypedExp) {
         switch f {
+        case let .literal(literal):
+            switch literal {
+            case .bool:
+                return (.empty(), .literal(literal, .bool))
+            case .int:
+                return (.empty(), .literal(literal, .int))
+            }
         case let .var(x):
             if let member = p[x], p.isActive(member: .abs(x)) || p.isActive(member: .fix(x)) {
                 return (Substitution.empty(), TypedExp.var(x, member.type))

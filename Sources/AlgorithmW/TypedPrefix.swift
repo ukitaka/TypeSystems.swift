@@ -42,6 +42,10 @@ public struct TypedPrefix {
     public func appending(member: TypedMember) -> TypedPrefix {
         return TypedPrefix(members: members.appending(element: member))
     }
+
+    public static func empty() -> TypedPrefix {
+        return .init()
+    }
 }
 
 // MARK: -
