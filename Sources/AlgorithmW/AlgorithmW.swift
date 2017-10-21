@@ -35,6 +35,13 @@ public extension AlgorithmW {
             let beta = Type.freshVar()
             let (r, dp) = w(p.appending(member: .abs(x, beta)), d)
             return (r, .abs(x, r.apply(to: beta), dp, .func(r.apply(to: beta), dp.type)))
+        case let .fix(x, d):
+            let beta = Type.freshVar()
+            let (r, dp) = w(p.appending(member: .fix(x, beta)), d)
+            let u = AlgorithmU.mostGeneralUnifier(r.apply(to: beta), dp.type)
+            let t = u.union(r)
+            let f = TypedExp.fix(x, t.apply(to: beta), u.apply(to: dp), t.apply(to: beta))
+            return (t, f)
         default:
             fatalError()
         }

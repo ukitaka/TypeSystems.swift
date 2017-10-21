@@ -11,7 +11,7 @@ public indirect enum TypedExp {
     case abs(VarName, Type, TypedExp, Type)
     case app(TypedExp, TypedExp, Type)
     case `let`(VarName, TypedExp, TypedExp, Type)
-    case fix(VarName, TypedExp, Type)
+    case fix(VarName, Type, TypedExp, Type)
 }
 
 public extension TypedExp {
@@ -29,7 +29,7 @@ public extension TypedExp {
             return type
         case let .let(_, _, _, type):
             return type
-        case let .fix(_, _, type):
+        case let .fix(_, _,  _, type):
             return type
         }
     }
@@ -48,8 +48,8 @@ public extension TypedExp {
             return .app(s.apply(to: fun), s.apply(to: arg), s.apply(to: type))
         case let .let(varName, bind, body, type):
             return .let(varName, s.apply(to: bind), s.apply(to: body), s.apply(to: type))
-        case let .fix(varName, exp, type):
-            return .fix(varName, s.apply(to: exp), s.apply(to: type))
+        case let .fix(varName, varType, exp, type):
+            return .fix(varName, s.apply(to: varType), s.apply(to: exp), s.apply(to: type))
         }
     }
 }
@@ -71,8 +71,8 @@ extension TypedExp: Equatable {
             return tl1 == tr1 && tl2 == tr2 && tyl == tyr
         case let (.let(n1, bind1, body1, t1), .let(n2, bind2, body2, t2)):
             return n1 == n2 && bind1 == bind2 && body1 == body2 && t1 == t2
-        case let (.fix(n1, e1, t1), .fix(n2, e2, t2)):
-            return n1 == n2 && e1 == e2 && t1 == t2
+        case let (.fix(n1, vtv1, e1, t1), .fix(n2, vtv2, e2, t2)):
+            return n1 == n2 && vtv1 == vtv2 && e1 == e2 && t1 == t2
         default:
             return false
         }
