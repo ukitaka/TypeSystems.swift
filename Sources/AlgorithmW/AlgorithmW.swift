@@ -22,6 +22,15 @@ public extension AlgorithmW {
             let f = u.apply(to: TypedExp.app(s.apply(to: dp), es, beta))
             let t = u.union(s).union(r)
             return (t, f)
+        case let .if(d, e, ed):
+            let (r, dp) = w(p, d)
+            let u0 = AlgorithmU.mostGeneralUnifier(dp.type, .bool)
+            let (s, es) = w(u0.apply(to: r.apply(to: p)), e)
+            let (sd, esd) = w(s.apply(to: u0.apply(to: r.apply(to: p))), ed)
+            let u = AlgorithmU.mostGeneralUnifier(sd.apply(to: es.type), esd.type)
+            let t = u.union(sd).union(s).union(u0).union(r)
+            let f = u.apply(to: .if(sd.union(s).union(u0).apply(to: dp), sd.apply(to: es), esd, es.type))
+            return (t, f)
         default:
             fatalError()
         }
