@@ -7,6 +7,8 @@ public enum Literal {
     case bool(Bool)
 }
 
+// MARK: -
+
 extension Literal: Equatable {
     public static func ==(lhs: Literal, rhs: Literal) -> Bool {
         switch (lhs, rhs) {
@@ -16,6 +18,19 @@ extension Literal: Equatable {
             return b1 == b2
         default:
             return false
+        }
+    }
+}
+
+// MARK: -
+
+extension Literal: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .int(n):
+            return "\(n)"
+        case let .bool(b):
+            return "\(b)"
         }
     }
 }

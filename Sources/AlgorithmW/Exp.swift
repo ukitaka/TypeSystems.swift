@@ -38,3 +38,26 @@ extension Exp: Equatable {
         }
     }
 }
+
+// MARK: - CustomStringConvertible
+
+extension Exp: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .var(varName):
+            return varName.name
+        case let .literal(literal):
+            return literal.description
+        case let .if(cond, then, els):
+            return "if \(cond) then \(then) else \(els)"
+        case let .abs(varName, exp):
+            return "λ\(varName). \(exp)"
+        case let .app(fun, arg):
+            return "(\(fun) \(arg))"
+        case let .let(varName, bind, body):
+            return "let \(varName) = \(bind) in \(body)"
+        case let .fix(varName, exp):
+            return "fix \(varName). \(exp)"
+        }
+    }
+}

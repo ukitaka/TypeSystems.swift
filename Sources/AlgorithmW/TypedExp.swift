@@ -78,3 +78,26 @@ extension TypedExp: Equatable {
         }
     }
 }
+
+// MARK: - CustomStringConvertible
+
+extension TypedExp: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .var(varName, type):
+            return "\(varName.name):\(type)"
+        case let .literal(literal, type):
+            return "\(literal.description):\(type)"
+        case let .if(cond, then, els, type):
+            return "(if \(cond) then \(then) else \(els)):\(type)"
+        case let .abs(varName, varType, exp, expType):
+            return "λ\(varName):\(varType). \(exp):\(expType)"
+        case let .app(fun, arg, type):
+            return "(\(fun) \(arg)):\(type)"
+        case let .let(varName, varType, bind, body, bodyType):
+            return "let \(varName):\(varType) = \(bind) in \(body):\(bodyType)"
+        case let .fix(varName, varType, exp, expType):
+            return "fix \(varName):\(varType). \(exp):\(expType)"
+        }
+    }
+}
