@@ -9,6 +9,12 @@ public indirect enum Type {
     case typeVar(VarName)
 }
 
+public extension Type {
+    public static func fresh() -> Type {
+        return .typeVar(VarName.fresh())
+    }
+}
+
 extension Type: Equatable {
     public static func ==(lhs: Type, rhs: Type) -> Bool {
         switch (lhs, rhs) {

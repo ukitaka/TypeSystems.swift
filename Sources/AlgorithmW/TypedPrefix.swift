@@ -11,11 +11,33 @@ public struct TypedPrefix {
 
     let members: [TypedMember]
 
+    init() {
+        members = []
+    }
+
+    public init(prefix: Prefix) {
+        self.members = prefix.members.map(TypedMember.init)
+    }
+
+    public func isActive(member: TypedMember) -> Bool {
+        return members.filter { $0.varName == member.varName }.last == member
+    }
 }
 
 // MARK: -
 
 extension TypedPrefix.TypedMember {
+    public init(member: Prefix.Member) {
+        switch member {
+        case let .let(varName):
+            self = .let(varName, Type.fresh())
+        case let .fix(varName):
+            self = .fix(varName, Type.fresh())
+        case let .abs(varName):
+            self = .abs(varName, Type.fresh())
+        }
+    }
+
     public var varName: VarName {
         switch self {
         case let .let(varName, _):
