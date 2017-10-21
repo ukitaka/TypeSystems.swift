@@ -48,3 +48,11 @@ extension VarName: ExpressibleByStringLiteral {
         self.name = value
     }
 }
+
+// MARK: - CustomStringConvertible
+
+extension VarName: CustomStringConvertible {
+    public var description: String {
+        return name
+    }
+}

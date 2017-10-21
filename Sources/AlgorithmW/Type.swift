@@ -40,7 +40,7 @@ extension Type: CustomStringConvertible {
         case .bool:
             return "Bool"
         case let .func(arg, ret):
-            return "\(arg) -> \(ret)"
+            return "\(arg) → \(ret)"
         case let .typeVar(varName):
             return varName.name
         }

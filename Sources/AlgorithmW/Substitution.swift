@@ -68,3 +68,11 @@ public extension Substitution {
         return Substitution(varName: varName, type: type)
     }
 }
+
+// MARK: CustomStringConvertible
+
+extension Substitution: CustomStringConvertible {
+    public var description: String {
+        return "[\n" + map.map { (key, val) in "\(key) ↦ \(val)" }.joined(separator: ",\n") + "\n]"
+    }
+}
