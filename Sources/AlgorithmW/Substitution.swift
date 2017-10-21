@@ -41,7 +41,7 @@ public struct Substitution {
     }
 
     public func apply(to e: TypedExp) -> TypedExp {
-        return TypedExp(exp: e.exp, type: apply(to: e.type))
+        return e.apply(substitution: self)
     }
 }
 

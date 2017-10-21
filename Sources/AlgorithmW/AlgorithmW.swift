@@ -9,9 +9,9 @@ public extension AlgorithmW {
         switch f {
         case let .var(x):
             if let member = p[x], p.isActive(member: .abs(x)) || p.isActive(member: .fix(x)) {
-                return (Substitution.empty(), TypedExp(exp: .var(x), type: member.type))
+                return (Substitution.empty(), TypedExp.var(x, member.type))
             } else if p.isActive(member: .let(x)) {
-                return (Substitution.empty(), TypedExp(exp: .var(x), type: Type.freshVar()))
+                return (Substitution.empty(), TypedExp.var(x, Type.freshVar()))
             }
             fatalError("\(x) is not active in prefix")
 //        case let .app(d, e):

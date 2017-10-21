@@ -4,15 +4,58 @@
 
 import Utils
 
-public struct TypedExp {
-    let exp: Exp
-    let type: Type
+public indirect enum TypedExp {
+    case `var`(VarName, Type)
+    case literal(Literal, Type)
+    case `if`(TypedExp, TypedExp, TypedExp, Type)
+    case abs(VarName, TypedExp, Type)
+    case app(TypedExp, TypedExp, Type)
+    case `let`(VarName, TypedExp, TypedExp, Type)
+    case fix(VarName, TypedExp, Type)
+}
+
+public extension TypedExp {
+    public func apply(substitution s: Substitution) -> TypedExp {
+        switch self {
+        case let .var(varName, type):
+            return .var(varName, s.apply(to: type))
+        case let .literal(literal, type):
+            return .literal(literal, s.apply(to: type))
+        case let .if(cond, then, els, type):
+            return .if(s.apply(to: cond), s.apply(to: then), s.apply(to: els), s.apply(to: type))
+        case let .abs(varName, body, type):
+            return .abs(varName, s.apply(to: body), s.apply(to: type))
+        case let .app(fun, arg, type):
+            return .app(s.apply(to: fun), s.apply(to: arg), s.apply(to: type))
+        case let .let(varName, bind, body, type):
+            return .let(varName, s.apply(to: bind), s.apply(to: body), s.apply(to: type))
+        case let .fix(varName, exp, type):
+            return .fix(varName, s.apply(to: exp), s.apply(to: type))
+        }
+    }
 }
 
 // MARK: - Equatable
 
 extension TypedExp: Equatable {
     public static func ==(lhs: TypedExp, rhs: TypedExp) -> Bool {
-        return lhs.type == rhs.type && lhs.exp == rhs.exp
+        switch (lhs, rhs) {
+        case let (.var(v1, t1), .var(v2, t2)):
+            return v1 == v2 && t1 == t2
+        case let (.literal(l1, t1), .literal(l2, t2)):
+            return l1 == l2 && t1 == t2
+        case let (.if(c1, t1, e1, ty1), .if(c2, t2, e2, ty2)):
+            return c1 == c2 && t1 == t2 && e1 == e2 && ty1 == ty2
+        case let (.abs(v1, t1, ty1), .abs(v2, t2, ty2)):
+            return v1 == v2 && t1 == t2 && ty1 == ty2
+        case let (.app(tl1, tl2, tyl), .app(tr1, tr2, tyr)):
+            return tl1 == tr1 && tl2 == tr2 && tyl == tyr
+        case let (.let(n1, bind1, body1, t1), .let(n2, bind2, body2, t2)):
+            return n1 == n2 && bind1 == bind2 && body1 == body2 && t1 == t2
+        case let (.fix(n1, e1, t1), .fix(n2, e2, t2)):
+            return n1 == n2 && e1 == e2 && t1 == t2
+        default:
+            return false
+        }
     }
 }
