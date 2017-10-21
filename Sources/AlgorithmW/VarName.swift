@@ -3,7 +3,22 @@
 //
 
 public struct VarName {
+    private static var counter: Int = 0
+
     public let name: String
+
+    public init(name: String) {
+        self.name = name
+    }
+
+    init() {
+        VarName.counter += 1
+        self.name = "X\(counter)"
+    }
+
+    public static func fresh() -> VarName {
+        return VarName()
+    }
 }
 
 // MARK: - Equatable
