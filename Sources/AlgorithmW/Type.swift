@@ -10,7 +10,7 @@ public indirect enum Type {
 }
 
 public extension Type {
-    public static func fresh() -> Type {
+    public static func freshVar() -> Type {
         return .typeVar(VarName.fresh())
     }
 }

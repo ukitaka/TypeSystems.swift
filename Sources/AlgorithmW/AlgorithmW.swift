@@ -5,17 +5,17 @@
 public struct AlgorithmW { }
 
 public extension AlgorithmW {
-//    func w(p: Prefix, f: Exp) -> (Substitution, Exp) {
-//        switch f {
-//        case let .var(x):
-//            if p.isActive(member: .abs(x)) || p.isActive(member: .fix(x)) {
-//                return (Substitution.empty(), .var(x))
-//            } else if(p.isActive(member: .let(x))) {
-//                return (Substitution.empty(), .var(VarName.fresh()))
-//
-//            }
-//
-//        }
-//
-//    }
+    func w(p: TypedPrefix, f: Exp) -> (Substitution, TypedExp) {
+        switch f {
+        case let .var(x):
+            if let member = p[x], p.isActive(member: .abs(x)) || p.isActive(member: .fix(x)) {
+                return (Substitution.empty(), TypedExp(exp: .var(x), type: member.type))
+            } else if p.isActive(member: .let(x)) {
+                return (Substitution.empty(), TypedExp(exp: .var(x), type: Type.freshVar()))
+            }
+            fatalError()
+        default:
+            fatalError()
+        }
+    }
 }

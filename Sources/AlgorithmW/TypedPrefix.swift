@@ -19,22 +19,42 @@ public struct TypedPrefix {
         self.members = prefix.members.map(TypedMember.init)
     }
 
+    public func isActive(member: Prefix.Member) -> Bool {
+        return members.filter { $0.varName == member.varName }.last?.untyped() == member
+    }
+
     public func isActive(member: TypedMember) -> Bool {
         return members.filter { $0.varName == member.varName }.last == member
+    }
+
+    public subscript(varName: VarName) -> TypedMember? {
+        return members.first { $0.varName == varName }
     }
 }
 
 // MARK: -
 
 extension TypedPrefix.TypedMember {
+
+    public func untyped() -> Prefix.Member {
+        switch self {
+        case let .let(varName, _):
+            return .let(varName)
+        case let .fix(varName, _):
+            return .fix(varName)
+        case let .abs(varName, _):
+            return .abs(varName)
+        }
+    }
+
     public init(member: Prefix.Member) {
         switch member {
         case let .let(varName):
-            self = .let(varName, Type.fresh())
+            self = .let(varName, Type.freshVar())
         case let .fix(varName):
-            self = .fix(varName, Type.fresh())
+            self = .fix(varName, Type.freshVar())
         case let .abs(varName):
-            self = .abs(varName, Type.fresh())
+            self = .abs(varName, Type.freshVar())
         }
     }
 

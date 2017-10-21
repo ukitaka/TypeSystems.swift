@@ -5,8 +5,8 @@
 import Utils
 
 public struct TypedExp {
-    let type: Type
     let exp: Exp
+    let type: Type
 }
 
 // MARK: - Equatable
