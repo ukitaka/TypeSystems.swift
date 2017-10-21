@@ -10,7 +10,7 @@ public indirect enum TypedExp {
     case `if`(TypedExp, TypedExp, TypedExp, Type)
     case abs(VarName, Type, TypedExp, Type)
     case app(TypedExp, TypedExp, Type)
-    case `let`(VarName, TypedExp, TypedExp, Type)
+    case `let`(VarName, Type, TypedExp, TypedExp, Type)
     case fix(VarName, Type, TypedExp, Type)
 }
 
@@ -27,7 +27,7 @@ public extension TypedExp {
             return type
         case let .app(_, _, type):
             return type
-        case let .let(_, _, _, type):
+        case let .let(_, _, _, _, type):
             return type
         case let .fix(_, _,  _, type):
             return type
@@ -46,8 +46,8 @@ public extension TypedExp {
             return .abs(varName, s.apply(to: argType), s.apply(to: body), s.apply(to: absType))
         case let .app(fun, arg, type):
             return .app(s.apply(to: fun), s.apply(to: arg), s.apply(to: type))
-        case let .let(varName, bind, body, type):
-            return .let(varName, s.apply(to: bind), s.apply(to: body), s.apply(to: type))
+        case let .let(varName, varType, bind, body, type):
+            return .let(varName, s.apply(to: varType), s.apply(to: bind), s.apply(to: body), s.apply(to: type))
         case let .fix(varName, varType, exp, type):
             return .fix(varName, s.apply(to: varType), s.apply(to: exp), s.apply(to: type))
         }
@@ -69,8 +69,8 @@ extension TypedExp: Equatable {
             return v1 == v2 && vty1 == vty2 && t1 == t2 && ty1 == ty2
         case let (.app(tl1, tl2, tyl), .app(tr1, tr2, tyr)):
             return tl1 == tr1 && tl2 == tr2 && tyl == tyr
-        case let (.let(n1, bind1, body1, t1), .let(n2, bind2, body2, t2)):
-            return n1 == n2 && bind1 == bind2 && body1 == body2 && t1 == t2
+        case let (.let(n1, vtv1, bind1, body1, t1), .let(n2, vtv2, bind2, body2, t2)):
+            return n1 == n2 && vtv1 == vtv2 && bind1 == bind2 && body1 == body2 && t1 == t2
         case let (.fix(n1, vtv1, e1, t1), .fix(n2, vtv2, e2, t2)):
             return n1 == n2 && vtv1 == vtv2 && e1 == e2 && t1 == t2
         default:
