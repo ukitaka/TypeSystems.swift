@@ -12,35 +12,6 @@ public struct Prefix {
     }
 
     let members: [Member]
-
-    init() {
-        members = []
-    }
-
-    init(members: [Member]) {
-        self.members = members
-    }
-
-    public func appending(member: Member) -> Prefix {
-        return Prefix(members: members.appending(element: member))
-    }
-
-    public func isActive(member: Member) -> Bool {
-        return members.filter { $0.varName == member.varName }.last == member
-    }
-
-    public func contains(_ varName: VarName) -> Bool {
-        return members.contains { $0.varName == varName }
-    }
-
-}
-
-// MARK: -
-
-public extension Prefix {
-    public static func empty() -> Prefix {
-        return .init()
-    }
 }
 
 // MARK: -
