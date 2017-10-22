@@ -26,7 +26,11 @@ public struct Substitution {
     public func apply(to type: Type) -> Type {
         switch type {
         case let .typeVar(name):
-            return map[name] ?? type
+            if let t = map[name] {
+                return apply(to: t)
+            } else {
+                return type
+            }
         case let .func(arg, ret):
             return .func(apply(to: arg), apply(to: ret))
         case .bool:

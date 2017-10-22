@@ -2,6 +2,8 @@
 // Created by ukitaka on 2017/10/13.
 //
 
+import Utils
+
 public indirect enum Type {
     case int
     case bool
@@ -15,13 +17,21 @@ public extension Type {
     }
 
     public func instantiate() -> Type {
+        let fvs = freeVars()
+        let values = fvs.map { _ in Type.freshVar() }
+        let map = Dictionary(keys: fvs.toArray(), values: values)
+        let subst = Substitution(map: map)
+        return subst.apply(to: self)
+    }
+
+    private func freeVars() -> Set<VarName> {
         switch self {
         case .int, .bool:
-            return self
+            return Set<VarName>()
         case let .func(arg, ret):
-            return .func(arg.instantiate(), ret.instantiate())
-        case .typeVar:
-            return .freshVar()
+            return arg.freeVars().union(ret.freeVars())
+        case let .typeVar(varName):
+            return Set.singleton(varName)
         }
     }
 }
@@ -51,9 +61,15 @@ extension Type: CustomStringConvertible {
         case .bool:
             return "Bool"
         case let .func(arg, ret):
-            return "\(arg) → \(ret)"
+            return "(\(arg) → \(ret))"
         case let .typeVar(varName):
             return varName.name
         }
+    }
+}
+
+extension Type: Hashable {
+    public var hashValue: Int {
+        return description.hashValue
     }
 }

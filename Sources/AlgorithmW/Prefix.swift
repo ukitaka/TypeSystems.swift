@@ -29,6 +29,10 @@ public struct Prefix {
         return members.filter { $0.varName == member.varName }.last == member
     }
 
+    public func contains(_ varName: VarName) -> Bool {
+        return members.contains { $0.varName == varName }
+    }
+
 }
 
 // MARK: -
