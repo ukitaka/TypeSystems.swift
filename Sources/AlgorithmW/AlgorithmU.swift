@@ -15,7 +15,9 @@ public extension AlgorithmU {
         case let (_, .typeVar(varName)):
             return Substitution(varName: varName, type: type1)
         case let (.func(arg1, ret1), .func(arg2, ret2)):
-            return mostGeneralUnifier(arg1, arg2) ∪ mostGeneralUnifier(ret1, ret2)
+            let s1 = mostGeneralUnifier(arg1, arg2)
+            let s2 = mostGeneralUnifier(s1.apply(to: ret1), s1.apply(to: ret2))
+            return s1 ∪ s2
         case (.int, .int):
             return Substitution()
         case (.bool, .bool):
