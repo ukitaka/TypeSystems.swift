@@ -13,6 +13,17 @@ public extension Type {
     public static func freshVar() -> Type {
         return .typeVar(VarName.fresh())
     }
+
+    public func instantiate() -> Type {
+        switch self {
+        case .int, .bool:
+            return self
+        case let .func(arg, ret):
+            return .func(arg.instantiate(), ret.instantiate())
+        case .typeVar:
+            return .freshVar()
+        }
+    }
 }
 
 extension Type: Equatable {

@@ -32,8 +32,7 @@ public extension AlgorithmW {
             } else if let member = p[x], p.isActive(member: .let(x)) {
                 print("return var2: -----------------------=")
                 print("substitution: \(Substitution.empty())")
-                //TODO: member.typeの自由な出現をすべてfreshなVarで置き換える
-                let result = (Substitution.empty(), TypedExp.var(x, Type.freshVar()))
+                let result = (Substitution.empty(), TypedExp.var(x, member.type.instantiate()))
                 print("typed exp: \(result.1)")
                 return result
             }
