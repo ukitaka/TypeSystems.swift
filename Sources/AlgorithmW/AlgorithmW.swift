@@ -5,6 +5,9 @@
 public struct AlgorithmW { }
 
 public extension AlgorithmW {
+    ///
+    /// 4.1 The Algorithm W
+    ///
     public static func w(_ p: TypedPrefix, _ f: Exp) -> (Substitution, TypedExp) {
         switch f {
         case let .literal(literal):
