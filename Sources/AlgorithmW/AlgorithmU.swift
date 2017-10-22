@@ -8,6 +8,10 @@ public struct AlgorithmU { }
 
 public extension AlgorithmU {
 
+    /// Unification
+    ///
+    /// See: "J. A. Robinson: A Machine-Oriented Logic Based on the Resolution Principle"
+    /// https://web.stanford.edu/class/linguist289/robinson65.pdf
     public static func mostGeneralUnifier(_ type1: Type, _ type2: Type) -> Substitution {
         switch (type1, type2) {
         case let (.typeVar(varName), _):
@@ -23,7 +27,7 @@ public extension AlgorithmU {
         case (.bool, .bool):
             return Substitution()
         default:
-            fatalError("error") //TODO: error handling
+            fatalError("error")
         }
     }
 }
