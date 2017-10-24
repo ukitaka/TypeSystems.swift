@@ -12,6 +12,5 @@ Swiftによる型システムのサンプル実装置き場です。
 
 + [Sources/Fullsub](https://github.com/ukitaka/TypeSystems.swift/tree/master/Sources/Fullsub)
 
-+ TaPL 15章
-+ [OCamlの実装](https://www.cis.upenn.edu/~bcpierce/tapl/checkers/fullsub/)
+TaPL 15章の実装。[OCamlの実装](https://www.cis.upenn.edu/~bcpierce/tapl/checkers/fullsub/)もあります。
 
