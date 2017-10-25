@@ -5,3 +5,10 @@
 public typealias Label = String
 
 public typealias VarName = String
+
+public func type(of term: Term) -> Type {
+    func type(of term: Term, context: Context) -> Type {
+        fatalError()
+    }
+    return type(of: term, context: Context())
+}
