@@ -27,3 +27,14 @@ public extension ParseResult {
         }
     }
 }
+
+extension ParseResult: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .success(a, input):
+            return ".success(\(a), \(input)"
+        case let .failure(.error(message)):
+            return ".failure(\(message)"
+        }
+    }
+}

@@ -88,4 +88,12 @@ public struct Parser<A> {
             }
         }
     }
+
+    public func log(_ message: String) -> Parser<A> {
+        return Parser<A> { input in
+            let result = self.parse(input)
+            print("[LOG] \(message) , result = \(result), current input = \"\(input)\"")
+            return result
+        }
+    }
 }

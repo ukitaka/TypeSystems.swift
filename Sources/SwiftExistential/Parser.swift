@@ -30,6 +30,7 @@ public extension Parsers {
                 <**> self.nameParser()
                 <* Parsers.whiteSpaces()
                 <* Parsers.string(":")
+                <* Parsers.whiteSpaces()
                 <**> self.typeParser()
                 <* Parsers.whiteSpaces()
                 <* Parsers.string(")")
@@ -42,7 +43,7 @@ public extension Parsers {
     }
 
     static func methodBodyParser() -> P<Term.MethodBody> {
-        return Parsers.skipUntil("}").map { _ in Term.MethodBody() } //TODO
+        return Parsers.skipUntil("}") <^> const(Term.MethodBody()) //TODO
     }
 
     static func methodParser() -> P<Term.Method> {
