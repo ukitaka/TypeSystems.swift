@@ -44,6 +44,10 @@ public struct Parser<A> {
         }
     }
 
+    public static func <^> <B>(_ parser: Parser<A>, _ f: @escaping (A) -> B) -> Parser<B> {
+        return parser.map(f)
+    }
+
     public func mapResult<B>(_ f: @escaping (A, String) -> ParseResult<B>) -> Parser<B> {
         return Parser<B> { input in
             switch self.parse(input) {
