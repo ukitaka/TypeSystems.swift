@@ -59,8 +59,18 @@ public extension Parser {
         }
     }
 
+    public func manyOrZero() -> Parser<[A]> {
+        return map2(self.manyOrZero(), Array.cons) <|> Parser<[A]>.success([])
+    }
+
     public func many() -> Parser<[A]> {
-        return map2(self.many(), Array.cons) <|> Parser<[A]>.success([])
+        return manyOrZero().flatMap { result in
+            if result.isEmpty {
+                return Parser<[A]>.failure(.error("no elements"))
+            } else {
+                return Parser<[A]>.success(result)
+            }
+        }
     }
 }
 

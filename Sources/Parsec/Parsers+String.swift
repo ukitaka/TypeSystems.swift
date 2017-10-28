@@ -34,4 +34,8 @@ public extension Parsers {
             }
         }
     }
+
+    public static func alphabets() -> Parser<String> {
+        return alphabet().many().map{ String($0) }
+    }
 }

@@ -22,7 +22,7 @@ public extension Parsers {
     }
 
     public static func integer() -> Parser<Int> {
-        return integerZero() <|> (digitHead() <**> digit().many())
+        return integerZero() <|> (digitHead() <**> digit().manyOrZero())
             .mapResult { (tuple, remaining) in
                 if let int = Int(tuple.0 + tuple.1.joined()) {
                     return .success(int, remaining)

@@ -35,6 +35,12 @@ public struct Parser<A> {
         }
     }
 
+    public static func failure(_ error: ParseError) -> Parser<A> {
+        return Parser<A> { _ in
+            return .failure(error)
+        }
+    }
+
     public func map<B>(_ f: @escaping (A) -> B) -> Parser<B> {
         return Parser<B> { input in
             return self.parse(input)
