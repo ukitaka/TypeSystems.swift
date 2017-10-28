@@ -17,7 +17,7 @@ extension Type: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .var(name):
-            return name
+            return "TypeVar(" + name + ")"
         case .int:
             return "Int"
         case .void:
@@ -44,6 +44,8 @@ extension Type: Hashable {
         case (.int, .int):
             return true
         case (.bool, .bool):
+            return true
+        case (.void, .void):
             return true
         case let (.func(arg1, ret1), .func(arg2, ret2)):
             return arg1 == arg2 && ret1 == ret2
