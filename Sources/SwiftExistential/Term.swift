@@ -12,6 +12,16 @@ public indirect enum Term {
 }
 
 public extension Term {
+    var isProtocolDecl: Bool {
+        if case .protocolDecl = self {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+public extension Term {
     public struct Method {
         let name: Name
         let type: Type

@@ -5,7 +5,14 @@
 import Parsec
 
 public struct Parser {
-    public func parseProtocolDecl(_ input: String) throws -> Term {
+    typealias P = Parsec.Parser
+    typealias ProtocolDecl = Term
+
+    func protocolDeclParser(_ input: String) -> P<ProtocolDecl> {
         fatalError()
+//        return Parsers.string("protocol")
+//            <* Parsers.whiteSpaces()
+//
     }
 }
+
