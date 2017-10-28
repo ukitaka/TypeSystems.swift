@@ -3,6 +3,7 @@
 //
 
 import Parsec
+import Utils
 
 public struct Parser {
     typealias P = Parsec.Parser
@@ -26,7 +27,7 @@ public struct Parser {
                 <* Parsers.whiteSpaces()
                 <* Parsers.string("(")
                 <* Parsers.whiteSpaces()
-                <* Parsers.string("arg")
+                <**> self.nameParser()
                 <* Parsers.whiteSpaces()
                 <* Parsers.string(":")
                 <**> self.typeParser()
@@ -37,10 +38,8 @@ public struct Parser {
                 <* Parsers.whiteSpaces()
                 <**> self.typeParser()
         return p.map { result in
-            let name: String = result.0.0
-            let arg: Type = result.0.1
-            let ret: Type = result.1
-            return Term.Method(name: name, type: .func(arg, ret))
+            let (methodName, argName, argType, retType) = flatten(result)
+            return Term.Method(methodName: methodName, argName: argName, type: .func(argType, retType))
         }
     }
 

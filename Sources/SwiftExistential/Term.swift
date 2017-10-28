@@ -23,7 +23,8 @@ public extension Term {
 
 public extension Term {
     public struct Method {
-        let name: Name
+        let methodName: Name
+        let argName: Name
         let type: Type
     }
 
@@ -34,7 +35,10 @@ public extension Term {
 
 extension Term.Method: CustomStringConvertible {
     public var description: String {
-        return "func \(name): \(type)"
+        guard case let .func(arg, ret) = type else {
+            fatalError()
+        }
+        return "func \(methodName)(\(argName): \(arg)) -> \(ret)"
     }
 }
 
@@ -44,6 +48,8 @@ extension Term.Method: Hashable {
     }
 
     public static func ==(lhs: Term.Method, rhs: Term.Method) -> Bool {
-        return lhs.name == rhs.name && lhs.type == rhs.type
+        return lhs.methodName == rhs.methodName
+                && lhs.argName == rhs.argName
+                && lhs.type == rhs.type
     }
 }
