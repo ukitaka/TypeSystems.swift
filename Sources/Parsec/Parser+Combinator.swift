@@ -31,12 +31,20 @@ public extension Parser {
 // MARK: - product
 
 public extension Parser {
-    public func product<B>(_ other: Parser<B>) -> Parser<(A, B)> {
+    public func product<B>(_ other: @autoclosure @escaping () -> Parser<B>) -> Parser<(A, B)> {
         return map2(other) { (a, b) in (a, b) }
     }
 
-    public static func <**> <B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<(A, B)> {
+    public static func <**> <B>(lhs: Parser<A>, rhs: @autoclosure @escaping () -> Parser<B>) -> Parser<(A, B)> {
         return lhs.product(rhs)
+    }
+
+    public static func *> <B>(lhs: Parser<A>, rhs: @autoclosure @escaping () -> Parser<B>) -> Parser<B> {
+        return lhs.product(rhs).map { $0.1 }
+    }
+
+    public static func <* <B>(lhs: Parser<A>, rhs: @autoclosure @escaping () -> Parser<B>) -> Parser<A> {
+        return lhs.product(rhs).map { $0.0 }
     }
 }
 
