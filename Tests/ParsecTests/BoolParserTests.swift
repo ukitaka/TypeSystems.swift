@@ -10,5 +10,6 @@ class BoolParserTests: XCTestCase {
         let parser = Parsers.bool()
         XCTAssertEqual(try parser.parseOnly("true"), true)
         XCTAssertEqual(try parser.parseOnly("false"), false)
+        XCTAssertNil(try? parser.parseOnly(""))
     }
 }
