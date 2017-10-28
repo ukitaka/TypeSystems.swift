@@ -5,22 +5,22 @@
 import Parsec
 import Utils
 
-public struct Parser {
+public extension Parsers {
     typealias P = Parsec.Parser
     typealias ProtocolDecl = Term
 
-    func nameParser() -> P<Name> {
+    static func nameParser() -> P<Name> {
         return Parsers.alphabets()
     }
 
-    func typeParser() -> P<Type> {
-        return (Parsers.string("Int")
-                <|> Parsers.string("Void")
-                <|> Parsers.string("Bool")
-                <|> self.nameParser()).map(Type.var)
+    static func typeParser() -> P<Type> {
+        return (Parsers.string("Int") <^> const(Type.int))
+                <|> (Parsers.string("Void") <^> const(Type.void))
+                <|> (Parsers.string("Bool") <^> const(Type.bool))
+                <|> (self.nameParser() <^> Type.var)
     }
 
-    func methodSignatureParser() -> P<Term.MethodSignature> {
+    static func methodSignatureParser() -> P<Term.MethodSignature> {
         return Parsers.string("func")
                 *> Parsers.whiteSpaces()
                 *> self.nameParser()
@@ -41,15 +41,15 @@ public struct Parser {
                 <^> Term.MethodSignature.init
     }
 
-    func methodBodyParser() -> P<Term.MethodBody> {
+    static func methodBodyParser() -> P<Term.MethodBody> {
         return Parsers.skipUntil("}").map { _ in Term.MethodBody() } //TODO
     }
 
-    func methodParser() -> P<Term.Method> {
+    static func methodParser() -> P<Term.Method> {
         return methodSignatureParser() <**> self.methodBodyParser() <^> Term.Method.init
     }
 
-    func protocolDeclParser() -> P<ProtocolDecl> {
+    static func protocolDeclParser() -> P<ProtocolDecl> {
         return Parsers.string("protocol")
                 *> Parsers.whiteSpaces()
                 *> self.nameParser()
