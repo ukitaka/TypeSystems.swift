@@ -8,7 +8,11 @@ public struct Parser {
     typealias P = Parsec.Parser
     typealias ProtocolDecl = Term
 
-    func protocolDeclParser(_ input: String) -> P<ProtocolDecl> {
+    func nameParser() -> P<Name> {
+        fatalError()
+    }
+
+    func protocolDeclParser() -> P<ProtocolDecl> {
         fatalError()
 //        return Parsers.string("protocol")
 //            <* Parsers.whiteSpaces()

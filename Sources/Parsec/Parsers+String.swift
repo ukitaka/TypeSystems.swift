@@ -2,6 +2,8 @@
 // Created by ukitaka on 2017/10/13.
 //
 
+import Foundation
+
 public extension Parsers {
     public static func char(_ char: Character) -> Parser<Character> {
         return Parser<Character> { input in
@@ -19,6 +21,16 @@ public extension Parsers {
                 return .success(str, input.removing(head: str))
             } else {
                 return .failure(.error("input doesn't has prefix '\(str)'"))
+            }
+        }
+    }
+
+    public static func alphabet() -> Parser<Character> {
+         return Parser<Character> { input in
+            if let first = input.unicodeScalars.first, CharacterSet.lowercaseLetters.contains(first) || CharacterSet.uppercaseLetters.contains(first) {
+                return .success(Character(first), input.removingFirst()) //TODO: あとで直す。unicodeScalaとCharactersがごっちゃ。
+            } else {
+                return .failure(.error("input doesn't has alphabet name"))
             }
         }
     }
