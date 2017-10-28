@@ -20,8 +20,8 @@ public struct Parser {
                 <|> self.nameParser()).map(Type.var)
     }
 
-    func methodSignatureParser() -> P<Term.Method> {
-        let p = Parsers.string("func")
+    func methodSignatureParser() -> P<Term.MethodSignature> {
+        return Parsers.string("func")
                 *> Parsers.whiteSpaces()
                 *> self.nameParser()
                 <* Parsers.whiteSpaces()
@@ -37,14 +37,20 @@ public struct Parser {
                 <* Parsers.string("->")
                 <* Parsers.whiteSpaces()
                 <**> self.typeParser()
-        return p.map { result in
-            let (methodName, argName, argType, retType) = flatten(result)
-            return Term.Method(methodName: methodName, argName: argName, type: .func(argType, retType))
-        }
+                <^> flatten
+                <^> Term.MethodSignature.init
+    }
+
+    func methodBodyParser() -> P<Term.MethodBody> {
+        return Parsers.skipUntil("}").map { _ in Term.MethodBody() } //TODO
+    }
+
+    func methodParser() -> P<Term.Method> {
+        return methodSignatureParser() <**> self.methodBodyParser() <^> Term.Method.init
     }
 
     func protocolDeclParser() -> P<ProtocolDecl> {
-        let p = Parsers.string("protocol")
+        return Parsers.string("protocol")
                 *> Parsers.whiteSpaces()
                 *> self.nameParser()
                 <* Parsers.whiteSpaces()
@@ -52,9 +58,6 @@ public struct Parser {
                 <* Parsers.whiteSpaces()
                 <**> self.methodSignatureParser().manyOrZero()
                 <* Parsers.string("}")
-
-        return p.map { name, methods in
-            ProtocolDecl.protocolDecl(name, methods)
-        }
+                <^> ProtocolDecl.protocolDecl
     }
 }
