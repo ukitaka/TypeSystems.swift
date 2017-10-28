@@ -48,6 +48,10 @@ public struct Parser<A> {
         return parser.map(f)
     }
 
+    public func discard() -> Parser<Void> {
+        return map { _ in }
+    }
+
     public func mapResult<B>(_ f: @escaping (A, String) -> ParseResult<B>) -> Parser<B> {
         return Parser<B> { input in
             switch self.parse(input) {
