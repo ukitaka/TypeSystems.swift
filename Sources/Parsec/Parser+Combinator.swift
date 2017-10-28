@@ -63,3 +63,11 @@ public extension Parser {
         return map2(self.many(), Array.cons) <|> Parser<[A]>.success([])
     }
 }
+
+// MARK: - skip
+
+public extension Parser {
+    public func skipMany() -> Parser<Void> {
+        return many().map { _ in () }
+    }
+}
