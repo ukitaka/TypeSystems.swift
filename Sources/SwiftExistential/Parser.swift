@@ -44,11 +44,17 @@ public struct Parser {
     }
 
     func protocolDeclParser() -> P<ProtocolDecl> {
-        fatalError()
-//        return Parsers.string("protocol")
-//            <* Parsers.whiteSpaces()
-//            *> nameParser()
-//            <* Parsers.whiteSpaces()
+        let p = Parsers.string("protocol")
+                *> Parsers.whiteSpaces()
+                *> self.nameParser()
+                <* Parsers.whiteSpaces()
+                <* Parsers.string("{")
+                <* Parsers.whiteSpaces()
+                <**> self.methodSignatureParser().manyOrZero()
+                <* Parsers.string("}")
+
+        return p.map { name, methods in
+            ProtocolDecl.protocolDecl(name, methods)
+        }
     }
 }
-

@@ -5,7 +5,7 @@
 public indirect enum Term {
     public typealias ConformedProtocol = Term
 
-    case protocolDecl(Name, ConformedProtocol?, [Method])
+    case protocolDecl(Name, [Method])
     case structDecl(Name, ConformedProtocol?, [Method: MethodBody])
     case letDecl(Name, Term)
     case methodCallExpr(Term, Name)
