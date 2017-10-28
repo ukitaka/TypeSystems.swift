@@ -18,6 +18,7 @@ let package = Package(
       .target(name: "Fullsub", dependencies: ["Parsec", "Utils"]),
       .target(name: "Utils", dependencies: []),
       .testTarget(name: "ParsecTests", dependencies: ["Parsec"]), 
+      .testTarget(name: "SwiftExistentialTests", dependencies: ["SwiftExistential"]), 
       .testTarget(name: "AlgorithmWTests", dependencies: ["AlgorithmW"]), 
       .testTarget(name: "FullsubTests", dependencies: ["Fullsub"]), 
       .testTarget(name: "UtilsTests", dependencies: ["Utils"]),
