@@ -10,6 +10,6 @@ public extension Parsers {
     }
 
     public static func whiteSpaces()  -> Parser<Void> {
-        return whiteSpace().many().discard()
+        return whiteSpace().manyOrZero().discard()
     }
 }
