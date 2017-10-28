@@ -9,14 +9,15 @@ public struct Parser {
     typealias ProtocolDecl = Term
 
     func nameParser() -> P<Name> {
-        fatalError()
+        return Parsers.alphabets()
     }
 
     func protocolDeclParser() -> P<ProtocolDecl> {
         fatalError()
 //        return Parsers.string("protocol")
 //            <* Parsers.whiteSpaces()
-//
+//            *> nameParser()
+//            <* Parsers.whiteSpaces()
     }
 }
 
