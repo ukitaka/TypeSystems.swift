@@ -33,31 +33,10 @@ class ParserTests: XCTestCase {
     func testMethodSignatureParser() {
         let parser = Parsers.methodSignatureParser()
 
-//        let parser = Parsers.string("func")
-//                *> Parsers.whiteSpaces()
-//                *> Parsers.nameParser()
-//                <* Parsers.whiteSpaces()
-//                <* Parsers.string("(")
-//                <* Parsers.whiteSpaces()
-//                <**> Parsers.nameParser()
-//                <* Parsers.whiteSpaces()
-//                <* Parsers.string(":")
-//                <**> Parsers.typeParser()
-//                <* Parsers.whiteSpaces()
-//                <* Parsers.string(")")
-//                <* Parsers.whiteSpaces()
-//                <* Parsers.string("->")
-//                <* Parsers.whiteSpaces()
-//                <**> self.typeParser()
-//        let result = try! parser.parseOnly("func hoge(arg: Int) -> Bool")
-//        let result = flatten(try! parser.parseOnly("func hoge(arg: Int) -> Bool"))
-//        XCTAssertEqual(result.0, "hoge")
-//        XCTAssertEqual(result.1, "arg")
-//        XCTAssertEqual(result.2, Type.int)
-
-
-
         XCTAssertEqual(try parser.parseOnly("func hoge(arg: Int) -> Bool"),
                 Term.MethodSignature(methodName: "hoge", argName: "arg", argType: .int, retType: .bool))
+
+        XCTAssertEqual(try parser.parseOnly("func fuga(hoge: User) -> Bool"),
+                Term.MethodSignature(methodName: "fuga", argName: "hoge", argType: .var("User"), retType: .bool))
     }
 }
