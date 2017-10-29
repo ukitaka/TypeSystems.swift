@@ -43,6 +43,23 @@ public extension Term {
     }
 }
 
+extension Term: Equatable {
+    public static func ==(lhs: Term, rhs: Term) -> Bool {
+        switch (lhs, rhs) {
+        case let (.protocolDecl(name1, methods1), .protocolDecl(name2, methods2)):
+            return name1 == name2 && methods1 == methods2
+        case let (.structDecl(name1, proto1, methods1), .structDecl(name2, proto2, methods2)):
+            return name1 == name2 && proto1 == proto2 && methods1.keys == methods2.keys //TODO: method body
+        case let (.letDecl(name1, body1), .letDecl(name2, body2)):
+            return name1 == name2 && body1 == body2
+        case let (.methodCallExpr(term1, name1), .methodCallExpr(term2, name2)):
+            return name1 == name2 && term1 == term2
+        default:
+            return false
+        }
+    }
+}
+
 extension Term.MethodSignature: CustomStringConvertible {
     public var description: String {
         guard case let .func(arg, ret) = type else {
@@ -61,5 +78,11 @@ extension Term.MethodSignature: Hashable {
         return lhs.methodName == rhs.methodName
                 && lhs.argName == rhs.argName
                 && lhs.type == rhs.type
+    }
+}
+
+extension Term.Method: Equatable {
+    public static func ==(lhs: Term.Method, rhs: Term.Method) -> Bool {
+        return lhs.signature == rhs.signature
     }
 }

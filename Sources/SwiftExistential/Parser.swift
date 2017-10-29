@@ -7,7 +7,7 @@ import Utils
 
 public extension Parsers {
     typealias P = Parsec.Parser
-    typealias ProtocolDecl = Term
+    public typealias ProtocolDecl = Term
 
     static func nameParser() -> P<Name> {
         return Parsers.alphabets()
@@ -58,6 +58,7 @@ public extension Parsers {
                 <* Parsers.string("{")
                 <* Parsers.whiteSpaces()
                 <**> self.methodSignatureParser().manyOrZero()
+                <* Parsers.whiteSpaces()
                 <* Parsers.string("}")
                 <^> ProtocolDecl.protocolDecl
     }

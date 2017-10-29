@@ -39,4 +39,28 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(try parser.parseOnly("func fuga(hoge: User) -> Bool"),
                 Term.MethodSignature(methodName: "fuga", argName: "hoge", argType: .var("User"), retType: .bool))
     }
+
+    func testMethodParser() {
+        let parser = Parsers.methodParser()
+
+        let sig = Term.MethodSignature(methodName: "hoge", argName: "arg", argType: .int, retType: .bool)
+        let body = Term.MethodBody()
+        let method = Term.Method(signature: sig, body: body)
+
+        XCTAssertEqual(try parser.parseOnly("func hoge(arg: Int) -> Bool { return arg == 1 }"), method)
+    }
+
+    func testProtocolDeclParser() {
+        let parser = Parsers.protocolDeclParser()
+
+        let sig = Term.MethodSignature(methodName: "bark", argName: "repeatCount", argType: .int, retType: .void)
+        let proto = Term.protocolDecl("Animal", [sig])
+
+        let input =
+                "protocol Animal {\n" +
+                " func bark(repeatCount: Int) -> Void\n" +
+                "}"
+
+        XCTAssertEqual(try parser.parseOnly(input), proto)
+    }
 }
