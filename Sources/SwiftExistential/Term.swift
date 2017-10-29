@@ -8,7 +8,7 @@ public indirect enum Term {
     case protocolDecl(Name, [MethodSignature])
     case structDecl(Name, ConformedProtocol?, [MethodSignature: MethodBody])
     case `var`(Name)
-    case letDecl(Name, Term)
+    case letDecl(Name, Type, Term)
     case methodCallExpr(Term, Name)
 }
 
@@ -51,8 +51,8 @@ extension Term: Equatable {
             return name1 == name2 && methods1 == methods2
         case let (.structDecl(name1, proto1, methods1), .structDecl(name2, proto2, methods2)):
             return name1 == name2 && proto1 == proto2 && methods1.keys == methods2.keys //TODO: method body
-        case let (.letDecl(name1, body1), .letDecl(name2, body2)):
-            return name1 == name2 && body1 == body2
+        case let (.letDecl(name1, type1, body1), .letDecl(name2, type2, body2)):
+            return name1 == name2 && type1 == type2 && body1 == body2
         case let (.methodCallExpr(term1, name1), .methodCallExpr(term2, name2)):
             return name1 == name2 && term1 == term2
         case let (.var(name1), .var(name2)):
