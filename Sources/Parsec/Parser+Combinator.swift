@@ -51,6 +51,17 @@ public extension Parser {
 // MARK: - many
 
 public extension Parser {
+    public func optional() -> Parser<A?> {
+        return Parser<A?> { input in
+            switch self.parse(input) {
+            case let .success(a, remaining):
+                return .success(a, remaining)
+            case .failure:
+                return .success(nil, input)
+            }
+        }
+    }
+
     public func listOf(_ n: UInt) -> Parser<[A]> {
         if n == 0 {
             return Parser<[A]>.success([])

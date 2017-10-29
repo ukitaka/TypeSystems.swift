@@ -8,6 +8,7 @@ import Utils
 public extension Parsers {
     typealias P = Parsec.Parser
     public typealias ProtocolDecl = Term
+    public typealias StructDecl = Term
 
     static func nameParser() -> P<Name> {
         return Parsers.alphabets()
@@ -61,5 +62,20 @@ public extension Parsers {
                 <* Parsers.whiteSpaces()
                 <* Parsers.string("}")
                 <^> ProtocolDecl.protocolDecl
+    }
+
+    static func structDeclParser() -> P<StructDecl> {
+        return Parsers.string("struct")
+                *> Parsers.whiteSpaces()
+                *> self.nameParser()
+                <**> (Parsers.whiteSpaces() *> Parsers.string(":") *>  Parsers.whiteSpaces() *> self.nameParser()).optional()
+                <* Parsers.whiteSpaces()
+                <* Parsers.string("{")
+                <* Parsers.whiteSpaces()
+                <**> self.methodParser().manyOrZero()
+                <* Parsers.whiteSpaces()
+                <* Parsers.string("}")
+                <^> flatten
+                <^> StructDecl.structDecl
     }
 }

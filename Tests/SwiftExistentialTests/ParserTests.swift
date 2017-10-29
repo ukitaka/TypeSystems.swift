@@ -63,4 +63,21 @@ class ParserTests: XCTestCase {
 
         XCTAssertEqual(try parser.parseOnly(input), proto)
     }
+
+    func testStructDeclParser() {
+        let parser = Parsers.structDeclParser()
+
+        let sig = Term.MethodSignature(methodName: "bark", argName: "repeatCount", argType: .int, retType: .void)
+        let body = Term.MethodBody()
+        let method = Term.Method(signature: sig, body: body)
+
+        let animalStruct = Term.structDecl("Dog", "Animal", [method])
+
+        let input =
+                "struct Dog: Animal {\n" +
+                "    func bark(repeatCount: Int) -> Void { } \n" +
+                "}"
+
+        XCTAssertEqual(try parser.parseOnly(input), animalStruct)
+    }
 }
